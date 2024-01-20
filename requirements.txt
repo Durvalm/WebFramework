@@ -1,0 +1,4 @@
+click==8.1.7
+h11==0.14.0
+typing-extensions==4.9.0
+uvicorn==0.26.0
