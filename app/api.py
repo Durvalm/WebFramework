@@ -1,6 +1,7 @@
 import uvicorn
 from starlette.responses import Response
 from starlette.requests import Request
+from starlette.exceptions import HTTPException
 
 from .routing import Route
 
@@ -18,39 +19,29 @@ class API:
 
         return wrapper
 
+    def _find_route(self, path):
+        for pattern, route in self._routes.items():
+            kwargs = route.match(path)
+            if kwargs is not None:
+                return pattern, kwargs
+        return None, {}
+
     def run(self, host='0.0.0.0', port=5200):
         print(f'Serving App on port {host}:{port}')
         uvicorn.run(self, host=host, port=port)
 
-    # def as_asgi(self, scope):
-    #     assert scope['type'] == 'http'
-
-    #     async def asgi(receive, send):
-    #         nonlocal scope
-    #         request = Request(scope, receive)
-    #         response = await self._dispatch(request)
-    #         # await response(receive, send)
-            
-    #     return asgi
-
-
-    # def __call__(self, scope):
-    #     return self.as_asgi(scope)
-
     async def __call__(self, scope, receive, send):
         assert scope['type'] == 'http'
+        request = Request(scope, receive)
 
+        pattern, kwargs = self._find_route(request.url.path)
+        route = self._routes.get(pattern)
+        if route is None:
+            raise HTTPException
 
-        await send({
-            'type': 'http.response.start',
-            'status': 200,
-            'headers': [
-                [b'content-type', b'text/plain'],
-            ]
-        })
-        await send({
-            'type': 'http.response.body',
-            'body': b'oi',
-        })
-        return None
+        response_obj = route._handler()
+        response = Response(response_obj, media_type='text/plain')
+        await response(scope, receive, send)
+
+        return response_obj
 

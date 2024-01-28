@@ -6,7 +6,7 @@ class Route:
         self._pattern = pattern
 
     def match(self, path):
-        print(self._pattern, path)
+        """Returns kwargs in url path"""
         result = parse(self._pattern, path)
         if result is not None:
             return result.named
