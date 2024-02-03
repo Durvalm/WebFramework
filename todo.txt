@@ -1,0 +1,18 @@
+DO:
+
+- Deploy on PIP
+- Exceptions
+- CORS
+- Static files
+- Blueprints / include_router()
+
+- Templates
+
+DONE:
+- Web Server (Uvicorn)
+- Router Decorator
+- Implement Routing
+- Request and Response Starlette
+- Send responses back in JSON format
+- Implement URL keyword arguments, and get access to them in endpoint
+- Pass request object to endpoint (view)
