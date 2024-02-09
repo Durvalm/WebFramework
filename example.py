@@ -2,6 +2,7 @@ from app.api import API
 
 api = API()
 
+
 data = [
         {'id': 1, 'name': 'Durval Maia', 'age': 19},
         {'id': 2, 'name': 'Davi Dantas', 'age': 9},

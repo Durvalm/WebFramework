@@ -1,12 +1,13 @@
 DO:
 
-- Deploy on PIP
-- Exceptions
-- CORS
-- Static files
-- Blueprints / include_router()
+- Test to see if it works with React Frontend
 
-- Templates
+- Deploy on PIP
+- Implement Middleware Stack
+- CORS
+- Exceptions (see how to deal with /favicon.ico... uvicorn server looks for it by default)
+- Static files
+
 
 DONE:
 - Web Server (Uvicorn)
