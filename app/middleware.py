@@ -1,1 +1,4 @@
 from starlette.middleware.cors import CORSMiddleware as CORSMiddleware
+from starlette.middleware import Middleware as Middleware
+from starlette.middleware.errors import ServerErrorMiddleware as ServerErrorMiddleware
+from starlette.middleware.exceptions import ExceptionMiddleware as ExceptionMiddleware

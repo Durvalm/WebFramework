@@ -1,6 +1,13 @@
 from app.api import API
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 
-api = API()
+
+middleware = [
+    Middleware(CORSMiddleware, allow_origins=["*"])
+]
+
+api = API(middleware=middleware)
 
 
 data = [

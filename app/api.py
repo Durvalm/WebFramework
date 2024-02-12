@@ -1,17 +1,14 @@
-import json
 import uvicorn
-from starlette.responses import Response
-from starlette.requests import Request
-from starlette.exceptions import HTTPException
-from starlette.middleware import Middleware
-from starlette.middleware.cors import CORSMiddleware
 
+from starlette.exceptions import HTTPException
+from .middleware import ServerErrorMiddleware, ExceptionMiddleware, Middleware
 from .routing import Router
 
 class API:
-    def __init__(self):
+    def __init__(self, middleware):
         self.routes = {}
-        self.middleware = []
+        self.user_middleware = [] if middleware is None else list(middleware)
+        self.middleware_stack = None
 
     def route(self, path):
 
@@ -37,13 +34,32 @@ class API:
 
 
     async def __call__(self, scope, receive, send):
-        if scope["type"] != "http":
-            return
-       
+        if self.middleware_stack is None:
+            self.middleware_stack = self.build_middleware_stack()
+
+        await self.middleware_stack(scope, receive, send)
+
+    
+    async def app(self, scope, receive, send):
         path, kwargs = self.find_route(scope["path"])
         route = self.routes.get(path)
 
         if route is None:
             raise HTTPException(status_code=500)
+        
         await route(scope, receive, send)
+
+
+    def build_middleware_stack(self):
+        middleware = (
+            [Middleware(ServerErrorMiddleware)] 
+            + self.user_middleware
+            + [Middleware(ExceptionMiddleware)]
+        )
+
+        app = self.app
+        for cls, args, kwargs in reversed(middleware):
+            app = cls(app=app, *args, **kwargs)
+
+        return app
 

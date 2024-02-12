@@ -1,7 +1,6 @@
 from parse import parse
 import json
 
-from starlette.requests import Request
 from starlette.responses import Response
 
 class Router:
@@ -17,7 +16,7 @@ class Router:
             return result.named
         return None
     
-    
+
     async def __call__(self, scope, receive, send):
         kwargs = self.match(scope["path"])
         response = get_response_from_endpoint(self.endpoint, kwargs)
@@ -25,6 +24,7 @@ class Router:
 
 
 def get_response_from_endpoint(endpoint, kwargs):
+    """Helper function to call endpoint, and return jsonized data as a response"""
     if kwargs is not None:
         response_obj = endpoint(**kwargs)
     else:
