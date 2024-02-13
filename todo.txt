@@ -1,11 +1,7 @@
 DO:
 
-- Test to see if it works with React Frontend
 
 - Deploy on PIP
-- Implement Middleware Stack
-- CORS
-- Exceptions (see how to deal with /favicon.ico... uvicorn server looks for it by default)
 - Static files
 
 
@@ -17,3 +13,7 @@ DONE:
 - Send responses back in JSON format
 - Implement URL keyword arguments, and get access to them in endpoint
 - Pass request object to endpoint (view)
+- Test to see if it works with React Frontend
+- Implement Middleware Stack
+- CORS
+

@@ -2,9 +2,9 @@ import uvicorn
 
 from starlette.exceptions import HTTPException
 from .middleware import ServerErrorMiddleware, ExceptionMiddleware, Middleware
-from .routing import Router
+from .routing import Route
 
-class API:
+class Api:
     def __init__(self, middleware):
         self.routes = {}
         self.user_middleware = [] if middleware is None else list(middleware)
@@ -13,7 +13,7 @@ class API:
     def route(self, path):
 
         def wrapper(endpoint):
-            route = Router(path=path, endpoint=endpoint)
+            route = Route(path=path, endpoint=endpoint)
             self.routes[path] = route
             return route
 

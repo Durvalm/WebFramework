@@ -1,9 +1,9 @@
 from parse import parse
 import json
 
-from starlette.responses import Response
+from .responses import Response
 
-class Router:
+class Route:
     def __init__(self, path, endpoint):
         self.path = path
         self.endpoint = endpoint
