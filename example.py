@@ -1,14 +1,14 @@
 from app.api import Api
 from app.middleware import Middleware
 from app.middleware import CORSMiddleware
-
+from app.staticfiles import StaticFiles
 
 middleware = [
     Middleware(CORSMiddleware, allow_origins=["*"])
 ]
 
 api = Api(middleware=middleware)
-
+api.mount(path="/static", app=StaticFiles(directory="static"), name="static")
 
 data = [
         {'id': 1, 'name': 'Durval Maia', 'age': 19},

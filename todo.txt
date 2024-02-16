@@ -2,7 +2,7 @@ DO:
 
 
 - Deploy on PIP
-- Static files
+- Try to implement my own Request/Response and maybe Middleware classes
 
 
 DONE:
@@ -16,4 +16,5 @@ DONE:
 - Test to see if it works with React Frontend
 - Implement Middleware Stack
 - CORS
+- Static files 
 
